@@ -1,0 +1,55 @@
+site,start_year,end_year,keep,notes,lai
+AU-Ade,2008,2008,yes,,MODIS
+AU-APL,,,no,No precip,MODIS
+AU-ASM,2011,2022,yes,,MODIS
+AU-Boy,2018,2025,yes,,MODIS
+AU-Col,,,no,No precip,MODIS
+AU-Cow,2010,2015,yes,,MODIS
+AU-Cow_1,2017,2021,yes,,MODIS
+AU-Cow_2,2024,2025,yes,,MODIS
+AU-Cpr,2011,2025,yes,,MODIS
+AU-Ctr,2010,2016,yes,,MODIS
+AU-Cum,2014,2025,yes,,MODIS
+AU-DaP,2009,2011,yes,,MODIS
+AU-DaS,2010,2025,yes,,MODIS
+AU-Dry,2018,2024,yes,,MODIS
+AU-Emr,2012,2013,yes,,MODIS
+AU-Fle,2022,2025,yes,,MODIS
+AU-Fog,,,no,No precip,MODIS
+AU-Gin,2013,2024,yes,,MODIS
+AU-How,2010,2024,yes,,MODIS
+AU-Lit,2016,2021,yes,,MODIS
+AU-Lit_1,2025,2025,yes,,MODIS
+AU-Lon,2019,2020,yes,,MODIS
+AU-Lon_1,2022,2022,yes,,MODIS
+AU-Lox,,,no,Too much precip,MODIS
+AU-MvA,2024,2024,yes,,MODIS
+AU-MvB,,,no,Irrigated,MODIS
+AU-Otw,2009,2010,yes,,MODIS
+AU-RDF,,,no,Too much precip,MODIS
+AU-Rgf,2019,2019,yes,,MODIS
+AU-Rig,2011,2013,yes,,MODIS
+AU-Rig_1,2015,2016,yes,,MODIS
+AU-Rob,2014,2025,yes,,MODIS
+AU-Sam,2011,2012,yes,,MODIS
+AU-Sam_1,2014,2016,yes,,MODIS
+AU-Sil,2020,2021,yes,,MODIS
+AU-Sno,,,no,Too much precip,MODIS
+AU-Stp,2010,2016,yes,,MODIS
+AU-Stp_1,2020,2024,yes,,MODIS
+AU-TTE,2013,2019,yes,,MODIS
+AU-Tum,2002,2019,yes,,MODIS
+AU-Wac,,,no,No precip,MODIS
+AU-Wel,,,no,Too much precip,MODIS
+AU-Wgt,,,no,Too much precip,MODIS
+AU-Whr,2014,2014,yes,,MODIS
+AU-Whr_1,2025,2025,yes,,MODIS
+AU-Wom,2011,2015,yes,,MODIS
+AU-Wom_1,2025,2025,yes,,MODIS
+AU-Wrr,2014,2014,yes,,MODIS
+AU-Wrr_1,2016,2016,yes,,MODIS
+AU-Wrr_2,2020,2020,yes,,MODIS
+AU-Ya1,2023,2024,yes,,MODIS
+AU-Ya2,2023,2024,yes,,MODIS
+AU-Ync,2013,2015,yes,,MODIS
+AU-Ync_1,2016,2024,yes,,MODIS
