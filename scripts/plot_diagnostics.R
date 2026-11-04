@@ -45,7 +45,7 @@ site_codes <- sapply(site_nc_met, function(x) ncatt_get(x, varid=0, "site_code")
 
 
 #Set output directory
-outdir <- paste0(path, "/PLUMBER2_site_selection_figs/")
+outdir <- paste0(path, "/site_selection_figs/")
 dir.create(outdir, showWarnings = FALSE)
 
 

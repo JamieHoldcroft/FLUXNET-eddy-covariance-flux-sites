@@ -11,7 +11,7 @@ rm(list = ls(all = TRUE))
 path     <- "C:/Users/jamie/extending-plumber2-flux-sites/processed/"
 met_dir  <- paste0(path, "/FLUXNET2015_sites/Nc_files/Met/")
 lai_path <- "C:/Users/jamie/extending-plumber2-flux-sites/BOM_LAI"
-outdir   <- paste0(path, "/BOM_LAI_diagnose/")
+outdir   <- paste0(path, "diagnose_LAI_figures/BOM_LAI_diagnose/")
 dir.create(outdir, showWarnings = FALSE)
 
 # Set to "2003-01-01" to drop the years before it; NA keeps everything (2000-2024)

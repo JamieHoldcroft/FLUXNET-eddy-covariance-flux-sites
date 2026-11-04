@@ -31,9 +31,11 @@ import numpy as np
 
 ROOT = Path("C:/Users/jamie/extending-plumber2-flux-sites/")
 
-CABLE_DIR = os.path.join(ROOT, "cable_results_run3")
+# CABLE_DIR = os.path.join(ROOT, "cable_results_run3")
+CABLE_DIR = os.path.join(ROOT, "New_PFT_runs", "Without_bare_soil", "cable_results_combined")
 FLUX_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Nc_files", "Flux")
-OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs3")
+# OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs3")
+OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs_nonbarren")
 MIN_DAY_FRACTION = 0.5  # a day needs at least this fraction of valid obs steps
 
 

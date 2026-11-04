@@ -8,7 +8,7 @@ rm(list = ls(all = TRUE))
 
 path   <- "C:/Users/jamie/extending-plumber2-flux-sites/processed/"
 d      <- paste0(path, "/MODIS_LAI_time_series/Raw_data/")
-outdir <- paste0(path, "/MODIS_LAI_diagnose/")
+outdir <- paste0(path, "diagnose_LAI_figures/MODIS_LAI_diagnose/")
 dir.create(outdir, showWarnings = FALSE)
 
 # Set to "2003-01-01" to drop 2002 (the AU-Sno test); NA keeps everything
