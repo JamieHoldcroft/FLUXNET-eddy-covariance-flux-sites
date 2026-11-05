@@ -10,7 +10,7 @@
 # Never touches met_cable/ or cable_runs/. Stops if either new folder already exists.
 set -e
 NAME=$1; CSV=$2
-BASE=/scratch/dt6/jh6400
+BASE=/scratch/$PROJECT/$USER   # your Gadi working folder
 cd $BASE
 [ -n "$NAME" ] && [ -f "$CSV" ] || { echo "usage: bash run_pft_batch.sh NAME CSV"; exit 1; }
 for d in met_cable_$NAME cable_runs_$NAME; do
@@ -33,4 +33,4 @@ grep -q "cable_runs_$NAME" cable_runs_$NAME/run_sites.pbs && grep -q "met_cable_
 
 cd cable_runs_$NAME
 qsub run_sites.pbs
-echo "Submitted. Check with: qstat -u jh6400"
+echo "Submitted. Check with: qstat -u $USER"

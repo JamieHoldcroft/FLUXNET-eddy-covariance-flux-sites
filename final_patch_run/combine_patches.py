@@ -41,15 +41,16 @@ for r in csv.DictReader(open(patch_csv, encoding="utf-8-sig")):
             fracs[site] = f
 
 for src in sorted(glob.glob(os.path.join(results_dir, "AU-*", "AU-*_out.nc"))):
-    site = os.path.basename(src).split("_")[0]
+    site = os.path.basename(os.path.dirname(src))    # folder name, e.g. AU-Cow or AU-Cow_1
     dst_dir = os.path.join(out_dir, site)
+    base = site.split("_")[0]                         # segments use their base site's fractions
     os.makedirs(dst_dir, exist_ok=True)
     dst = os.path.join(dst_dir, os.path.basename(src))
     with netCDF4.Dataset(src) as s, netCDF4.Dataset(dst, "w", format="NETCDF4") as d:
         n = len(s.dimensions["patch"]) if "patch" in s.dimensions else 1
-        if n > 1 and len(fracs[site]) != n:
-            sys.exit(f"{site}: output has {n} patches but the CSV lists {len(fracs[site])}")
-        w = np.array(fracs[site]) if n > 1 else np.ones(1)
+        if n > 1 and len(fracs[base]) != n:
+            sys.exit(f"{site}: output has {n} patches but the CSV lists {len(fracs[base])}")
+        w = np.array(fracs[base]) if n > 1 else np.ones(1)
         d.setncatts(s.__dict__)
         for name, dim in s.dimensions.items():
             # fixed sizes (no unlimited time): writing to an unlimited dimension is very slow

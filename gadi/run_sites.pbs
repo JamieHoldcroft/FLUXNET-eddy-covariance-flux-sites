@@ -1,0 +1,45 @@
+#!/bin/bash
+#PBS -N cable_sites
+#PBS -P dt6
+#PBS -q normal
+#PBS -l ncpus=42
+#PBS -l mem=84GB
+#PBS -l walltime=01:00:00
+#PBS -l storage=scratch/dt6
+#PBS -l wd
+#PBS -j oe
+
+# Runs serial CABLE once per met file, all sites in parallel on one node.
+# Paths below assume the Gadi layout in the repo README. Submit with: qsub run_sites.pbs
+
+module purge
+module load intel-compiler/2021.6.0 netcdf/4.6.3   # same modules build.bash uses on Gadi
+
+export CABLE_DIR=$HOME/CABLE                               # your clone on Gadi
+export MET_DIR=/scratch/$PROJECT/$USER/met_cable    # CABLE-ready files from prepare_met_for_cable.py
+export RUN_DIR=/scratch/$PROJECT/$USER/cable_runs   # one sub-folder per site is made here
+export TEMPLATE=$RUN_DIR/cable_template.nml
+
+export EXE=$CABLE_DIR/bin/cable
+export GRIDINFO=$CABLE_DIR/src/offline/gridinfo_CSIRO_1x1.nc
+
+run_site() {
+    met=$1
+    site=$(basename "$met" | sed -E 's/_[0-9]{4}-[0-9]{4}_.*//')   # e.g. AU-Cum or AU-Cow_1
+    d=$RUN_DIR/$site
+    mkdir -p "$d" && cd "$d" || return 1
+    # CABLE reads these two from the current directory (hard-coded './')
+    cp "$CABLE_DIR/src/offline/pft_params.nml" "$CABLE_DIR/src/offline/cable_soilparm.nml" .
+    sed -e "s|@MET@|$met|" -e "s|@SITE@|$site|g" -e "s|@GRIDINFO@|$GRIDINFO|" \
+        "$TEMPLATE" > cable.nml
+    "$EXE" cable.nml > stdout.txt 2>&1
+    status=$?
+    if [ $status -eq 0 ] && [ -f "${site}_out.nc" ]; then
+        echo "OK     $site"
+    else
+        echo "FAILED $site (exit $status, see $d/stdout.txt)"
+    fi
+}
+export -f run_site
+
+ls "$MET_DIR"/*_Met.nc | xargs -P "${PBS_NCPUS:-1}" -I{} bash -c 'run_site "$@"' _ {}

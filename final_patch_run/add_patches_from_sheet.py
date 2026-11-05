@@ -5,11 +5,11 @@ several vegetation patches per site. The input files are never changed.
 
     python add_patches_from_sheet.py MET_DIR SHEET_CSV OUT_DIR
 
-    MET_DIR    folder of prepared files (e.g. /scratch/dt6/jh6400/met_cable)
+    MET_DIR    folder of prepared files (e.g. /scratch/<project>/<user>/met_cable)
     SHEET_CSV  patchfracs_and_pfts.csv (your Google sheet: one row per site,
                column C<n> or C<n>-name (e.g. C2-EBF) = patchfrac of CABLE iveg n, empty = 0;
                sites with no C values are skipped)
-    OUT_DIR    new folder for the patched copies (e.g. /scratch/dt6/jh6400/met_cable_patches)
+    OUT_DIR    new folder for the patched copies (e.g. /scratch/<project>/<user>/met_cable_patches)
 
 Rows with no site name are ignored. Every site with a prepared met file is written,
 including single-patch sites (they then get one patch, MODIS LAI and their own hc).
@@ -39,7 +39,7 @@ NO_LEAVES = {12, 13, 14}
 # Sites CABLE can't start with several patches. AU-Otw is on the coast: with patches,
 # CABLE takes starting soil temperature from an ocean grid cell and stops ("Soil temps nuts").
 # Only applies if the site has more than one patch.
-SKIP = {"AU-Otw": "coastal grid cell, CABLE stops at start-up with patches"}
+SKIP = {"AU-Otw": "coastal grid cell: CABLE stops at start-up (Soil temps nuts) with patches or a grass iveg; use the standard run"}
 
 def cable_columns(row):
     """Map CABLE iveg -> column name, from headers like 'C2-EBF', 'C14' or 'C6'."""
@@ -62,15 +62,18 @@ for r in csv.DictReader(open(patch_csv, encoding="utf-8-sig")):
             table[site].append((iv, float(v), 0.0 if iv in NO_LEAVES else 1.0, col))
 
 report = []
-for site, patches in sorted(table.items()):
-    if site in SKIP and len(patches) > 1:
-        print(f"{site}: skipped ({SKIP[site]}); keep its single-patch Run 2 result")
-        continue
-    files = glob.glob(os.path.join(met_dir, f"{site}_*_Met.nc"))
-    if not files:
-        print(f"{site}: no prepared met file in {met_dir}, skipped")
-        continue
-    src = files[0]
+# One output per prepared met file. Segments (AU-Cow_1_2017-2021_...) use their base site's row.
+jobs = []
+for src in sorted(glob.glob(os.path.join(met_dir, "*_Met.nc"))):
+    seg = re.sub(r"_\d{4}-\d{4}_.*", "", os.path.basename(src))
+    base = seg.split("_")[0]
+    if base in SKIP:
+        print(f"{seg}: skipped ({SKIP[base]}); keep its single-patch result")
+    elif base not in table:
+        print(f"{seg}: {base} not in {os.path.basename(patch_csv)}, skipped")
+    else:
+        jobs.append((seg, src, table[base]))
+for site, src, patches in jobs:
     dst = os.path.join(out_dir, os.path.basename(src))
     iveg = np.array([p[0] for p in patches])
     frac = np.array([p[1] for p in patches])
@@ -142,6 +145,6 @@ with open(os.path.join(out_dir, "patch_report.csv"), "w", newline="") as f:
     w.writerow(["site", "n_patches", "iveg", "patchfrac", "modis_lai_mean", "max_lai_error", "note"])
     w.writerows(report)
 print(f"\n{len(report)} files written to {out_dir}")
-missing = sorted(set(table) - {r[0] for r in report} - set(SKIP))
+missing = sorted(set(table) - {r[0].split("_")[0] for r in report} - set(SKIP))
 if missing:
     print("In the sheet but no met file (probably keep = no):", " ".join(missing))

@@ -53,7 +53,8 @@ names(in_paths) <- names(era_paths) <- tstep
 out_path_flx <- paste0(out_path, "/FLUXNET2015_sites/")
 
 #Run only some sites, e.g. "AU-Ync" or c("AU-APL", "AU-Sil"); NA runs all sites
-only_site <- c("AU-Tum", "AU-Otw")
+# only_site <- c("AU-Tum", "AU-Otw")
+only_site <- c()
 
 #Anna's thresholds (Step1 lines 25-32)
 missing_met  <- 100   #max. percent missing (must be set)

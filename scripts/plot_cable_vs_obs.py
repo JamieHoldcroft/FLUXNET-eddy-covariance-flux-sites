@@ -31,11 +31,11 @@ import numpy as np
 
 ROOT = Path("C:/Users/jamie/extending-plumber2-flux-sites/")
 
-# CABLE_DIR = os.path.join(ROOT, "cable_results_run3")
-CABLE_DIR = os.path.join(ROOT, "New_PFT_runs", "Without_bare_soil", "cable_results_combined")
+CABLE_DIR = os.path.join(ROOT, "cable_results_anna")
+OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs_anna")
+# CABLE_DIR = os.path.join(ROOT, "cable_results")
+# OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs")
 FLUX_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Nc_files", "Flux")
-# OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs3")
-OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs_nonbarren")
 MIN_DAY_FRACTION = 0.5  # a day needs at least this fraction of valid obs steps
 
 
@@ -88,7 +88,7 @@ VARS = [  # (name, label, units)
 def site_data(site, qc_max):
     """Daily obs and CABLE series for every variable in VARS: {var: (days, obs, mod)}."""
     cable_file = os.path.join(CABLE_DIR, site, f"{site}_out.nc")
-    flux_files = glob.glob(os.path.join(FLUX_DIR, f"{site}_*_Flux.nc"))
+    flux_files = glob.glob(os.path.join(FLUX_DIR, f"{site.split('_')[0]}_*_Flux.nc"))  # AU-Cow_1 -> AU-Cow
     if not os.path.exists(cable_file) or not flux_files:
         return None
     out = {}
