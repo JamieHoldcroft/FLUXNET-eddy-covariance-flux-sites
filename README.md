@@ -1,4 +1,4 @@
-# Extending PLUMBER2: CABLE at the Australian flux sites
+# Extending the PLUMBER2-style flux site data: CABLE at the Australian flux sites
 
 This repo turns the FLUXNET Shuttle data for the 42 Australian flux sites (as downloaded from the FLUXNET data portal) into PLUMBER2-style NetCDF met and flux files. It adds MODIS and BoM LAI to them, runs the CABLE land surface model offline at every site on NCI's Gadi supercomputer, and compares CABLE with the observations.
 
