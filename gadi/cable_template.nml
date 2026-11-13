@@ -40,8 +40,8 @@
    wiltParam = 0.5
    satuParam = 0.8
    snmin = 1.0
-   cable_user%FWSOIL_SWITCH = 'standard'
-   cable_user%GS_SWITCH = 'leuning'
+   cable_user%FWSOIL_SWITCH = 'Haverd2013'
+   cable_user%GS_SWITCH = 'medlyn'
    cable_user%DIAG_SOIL_RESP = 'ON '
    cable_user%LEAF_RESPIRATION = 'ON '
    cable_user%RUN_DIAG_LEVEL= 'BASIC'

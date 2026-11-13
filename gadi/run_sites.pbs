@@ -10,18 +10,37 @@
 #PBS -j oe
 
 # Runs serial CABLE once per met file, all sites in parallel on one node.
-# Paths below assume the Gadi layout in the repo README. Submit with: qsub run_sites.pbs
+# Change the two "dt6" lines above to your own NCI project code.
+#
+# Submit it from the run folder, which needs this file and cable_template.nml:
+#     cd /scratch/$PROJECT/$USER/cable_runs && qsub run_sites.pbs
+# Results go into that folder, one sub-folder per site (AU-xxx/AU-xxx_out.nc).
+#
+# Defaults can be changed at submit time without editing this file, e.g.
+#     qsub -v MET_DIR=/scratch/$PROJECT/$USER/met_cable_patches run_sites.pbs
+#     qsub -v CABLE_DIR=$HOME/CABLE_branch run_sites.pbs
 
 module purge
 module load intel-compiler/2021.6.0 netcdf/4.6.3   # same modules build.bash uses on Gadi
 
-export CABLE_DIR=$HOME/CABLE                               # your clone on Gadi
-export MET_DIR=/scratch/$PROJECT/$USER/met_cable    # CABLE-ready files from prepare_met_for_cable.py
-export RUN_DIR=/scratch/$PROJECT/$USER/cable_runs   # one sub-folder per site is made here
+export CABLE_DIR=${CABLE_DIR:-$HOME/CABLE}                           # your CABLE clone on Gadi
+export MET_DIR=${MET_DIR:-/scratch/$PROJECT/$USER/met_cable}         # made by prepare_met_for_cable.py
+export RUN_DIR=$PBS_O_WORKDIR                                       # the folder you ran qsub in
 export TEMPLATE=$RUN_DIR/cable_template.nml
 
 export EXE=$CABLE_DIR/bin/cable
 export GRIDINFO=$CABLE_DIR/src/offline/gridinfo_CSIRO_1x1.nc
+
+# Record exactly what this run used, so it can be traced and repeated later.
+{
+    echo "date:        $(date '+%Y-%m-%d %H:%M')"
+    echo "run folder:  $RUN_DIR"
+    echo "met folder:  $MET_DIR ($(ls "$MET_DIR"/*_Met.nc | wc -l) files)"
+    echo "CABLE:       $CABLE_DIR"
+    echo "CABLE commit: $(git -C "$CABLE_DIR" rev-parse HEAD 2>/dev/null) on branch $(git -C "$CABLE_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null)"
+    echo "CABLE source edited since that commit: $(git -C "$CABLE_DIR" status --porcelain -- src 2>/dev/null | wc -l) files"
+} > "$RUN_DIR/run_info.txt"
+cp "$TEMPLATE" "$RUN_DIR/cable_template_used.nml"
 
 run_site() {
     met=$1
