@@ -7,17 +7,21 @@
 # it, just run it again: years already downloaded are skipped.
 #
 # At the end it joins the years into one CSV per site and band, named the way
-# add_lai_to_met.R (Anna's Step2) expects, e.g. AU-Cum_MCD15A2H_Lai_500m_2002-2026.csv
+# add_modis_lai_to_met.R (PLUMBER2 Step2) expects, e.g. AU-Cum_MCD15A2H_Lai_500m_2002-2026.csv
+#
+# The files for all sites, 2002-2026, are already in processed/MODIS_LAI_time_series,
+# so this script is only needed for new sites or a new download.
 
 library(MODISTools)
 library(ncdf4)
 
 # Run several copies at once: in each window set a different `part`, e.g.
-#   Rscript get_modis_lai.R 1 4     (window 1 of 4; then 2 4, 3 4, 4 4)
+#   Rscript scripts/get_modis_lai.R 1 4     (window 1 of 4; then 2 4, 3 4, 4 4)
 # or in an R console:  part <- 1; n_parts <- 4; source("get_modis_lai.R", echo = TRUE)
 # Each copy downloads every n_parts-th site. When all are done, run the script
 # once more with no part: everything is already downloaded, so it just joins
-# the files and checks them.
+# the files and checks them. In an R console, run rm(part, n_parts) first,
+# otherwise that run only covers the last part.
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) == 2) { part <- as.integer(args[1]); n_parts <- as.integer(args[2]) }
 rm(list = setdiff(ls(all = TRUE), c("part", "n_parts")))
@@ -33,14 +37,17 @@ bands     <- c("Lai_500m", "LaiStdDev_500m", "FparLai_QC")
 km        <- 1
 # MCD15A2H (Terra+Aqua combined) only starts in July 2002, so earlier years
 # have no data. Step2 fills years before MODIS with the mean seasonal cycle.
-years     <- 2002:as.numeric(format(Sys.Date(), "%Y"))
+# The end year is fixed so the file names match the files already in the repo
+# (add_modis_lai_to_met.R stops if a site has two files per band). To download
+# newer years, change it and delete the old joined files in Raw_data first.
+years     <- 2002:2026
 max_tries <- 5
 
 
 ### Site codes and coordinates from the Step1 Met files ###
 
 site_files <- list.files(paste0(path, "/FLUXNET2015_sites/Nc_files/Met/"), full.names = TRUE)
-if (length(site_files) == 0) stop("No Met files found; run run_step1.R first")
+if (length(site_files) == 0) stop("No Met files found; run process_fluxnet_step1.R first")
 
 sites <- do.call(rbind, lapply(site_files, function(f) {
   nc <- nc_open(f)
@@ -155,7 +162,7 @@ if (length(missing) > 0) {
   cat("\nStill missing, run the script again:\n")
   print(missing)
 } else if (!ok_all) {
-  cat("\nSomething above is FALSE: send me the output before going on.\n")
+  cat("\nSomething above is FALSE: check those sites before going on.\n")
 } else {
-  cat("\nAll good. Next: source('add_lai_to_met.R', echo = TRUE)\n")
+  cat("\nAll good. Next: source('scripts/add_modis_lai_to_met.R', echo = TRUE)\n")
 }

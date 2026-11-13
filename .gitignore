@@ -9,8 +9,11 @@ processed/step1_fluxnet_summary.csv
 *.csv
 
 cable_results/
+cable_results_*/
 scripts/__pycache__
 
 # keep the small config tables in git
 !site_periods.csv
 !final_patch_run/patchfracs_and_pfts.csv
+!final_patch_run/patchfracs_anna.csv
+!final_patch_run/patchfracs_jules.csv

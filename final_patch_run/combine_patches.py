@@ -2,9 +2,9 @@
 
     python combine_patches.py RESULTS_DIR PATCH_CSV OUT_DIR
 
-    RESULTS_DIR  folder with one sub-folder per site (AU-xxx/AU-xxx_out.nc), e.g. cable_results_run4
-    PATCH_CSV    have to choose (the patch fractions used for the run)
-    OUT_DIR      new folder, same layout, e.g. cable_results_run4_combined
+    RESULTS_DIR  folder with one sub-folder per site (AU-xxx/AU-xxx_out.nc), e.g. cable_results_jules_raw
+    PATCH_CSV    the same patch table given to add_patches_from_sheet.py, e.g. patchfracs_jules.csv
+    OUT_DIR      new folder, same layout, e.g. cable_results_jules
 
 Every variable with a patch dimension is replaced by the fraction-weighted average
 over patches (patch dimension kept, length 1). The fractions come from PATCH_CSV,
@@ -35,7 +35,7 @@ for r in csv.DictReader(open(patch_csv, encoding="utf-8-sig")):
         continue
     if "patchfrac" in r:                       # old long table (one row per patch)
         fracs[site].append(float(r["patchfrac"]))
-    else:                                      # patchfracs_and_pfts.csv: C1..C14, same order as add_patches_from_sheet.py
+    else:                                      # patch table: C1..C14, same order as add_patches_from_sheet.py
         f = [float(r[c]) for _, c in sorted(cable_columns(r).items()) if (r.get(c) or "").strip() and float(r[c]) > 0]
         if f:
             fracs[site] = f

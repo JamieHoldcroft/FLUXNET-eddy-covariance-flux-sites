@@ -6,7 +6,7 @@ several vegetation patches per site. The input files are never changed.
     python add_patches_from_sheet.py MET_DIR SHEET_CSV OUT_DIR
 
     MET_DIR    folder of prepared files (e.g. /scratch/<project>/<user>/met_cable)
-    SHEET_CSV  patchfracs_and_pfts.csv (the Google sheet: one row per site,
+    SHEET_CSV  patch table, e.g. patchfracs_jules.csv or patchfracs_anna.csv (one row per site,
                column C<n> or C<n>-name (e.g. C2-EBF) = patchfrac of CABLE iveg n, empty = 0;
                sites with no C values are skipped)
     OUT_DIR    new folder for the patched copies (e.g. /scratch/<project>/<user>/met_cable_patches)
@@ -36,9 +36,9 @@ DEFAULT_HC = {5: 0.6, 6: 0.567, 7: 0.567, 8: 0.567, 9: 0.55, 10: 0.55, 11: 0.567
 TREES = {1, 2, 3, 4}
 # Patch types that get no leaves: permanent ice (12), urban (13), bare soil (14).
 NO_LEAVES = {12, 13, 14}
-# Sites CABLE can't start with several patches. AU-Otw is on the coast: with patches,
-# CABLE takes starting soil temperature from an ocean grid cell and stops ("Soil temps nuts").
-# Only applies if the site has more than one patch.
+# Sites left out of every patch run (they keep their standard-run result). AU-Otw is on
+# the coast: with patches, CABLE takes starting soil temperature from an ocean grid cell
+# and stops ("Soil temps nuts").
 SKIP = {"AU-Otw": "coastal grid cell: CABLE stops at start-up (Soil temps nuts) with patches or a grass iveg; use the standard run"}
 
 def cable_columns(row):
@@ -102,7 +102,7 @@ for site, src, patches in jobs:
         site_hc = float(s["hc"][:].ravel()[0])
         old_iveg = int(s["iveg"][:].ravel()[0])
         if n == 1:
-            hc = np.array([site_hc])           # single patch: keep the Run 2 height
+            hc = np.array([site_hc])           # single patch: keep the standard-run height
         else:
             hc = np.array([site_hc if iv in TREES else DEFAULT_HC.get(iv, site_hc) for iv in iveg])
 
@@ -111,8 +111,8 @@ for site, src, patches in jobs:
             o[:] = values.reshape(n, 1, 1)
             o.units, o.long_name = units, long_name
 
-        patch_var("iveg", "i4", iveg, "-", "CABLE vegetation type per patch (from patchfracs_and_pfts.csv)")
-        patch_var("patchfrac", "f4", frac, "-", "Fraction of site covered by each patch (from patchfracs_and_pfts.csv)")
+        patch_var("iveg", "i4", iveg, "-", f"CABLE vegetation type per patch (from {os.path.basename(patch_csv)})")
+        patch_var("patchfrac", "f4", frac, "-", f"Fraction of site covered by each patch (from {os.path.basename(patch_csv)})")
         patch_var("hc", "f4", hc, "m", "Canopy height per patch")
 
         lai = s["LAI"][:].reshape(len(s.dimensions["time"]))
@@ -122,7 +122,7 @@ for site, src, patches in jobs:
         o[:] = lai_p[:, :, None, None]
         o.units = "-"
         o.long_name = "Leaf area index per patch (MODIS, same on every vegetated patch)"
-        d.setncattr("cable_patches", f"add_patches.py from {os.path.basename(patch_csv)}")
+        d.setncattr("cable_patches", f"add_patches_from_sheet.py from {os.path.basename(patch_csv)}")
 
         check = (lai_p * frac).sum(axis=1)
         err = float(np.abs(check - lai).max())

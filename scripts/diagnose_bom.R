@@ -1,8 +1,8 @@
 # diagnose_bom.R: runs the LAI steps of add_bom_lai_to_met.R (same code) for EVERY
 # site in Nc_files/Met and saves one figure per site showing the series after each
 # step, plus the climatology. Prints a summary table at the end.
-# The BOM version of diagnose.R (which does the same for MODIS).
-# Figures: processed/BOM_LAI_diagnose/<site>_BOM_LAI_steps.png
+# The BOM version of diagnose_modis.R.
+# Figures: processed/diagnose_LAI_figures/BOM_LAI_diagnose/<site>_BOM_LAI_steps.png
 
 library(ncdf4)
 library(zoo)
@@ -92,7 +92,7 @@ for (s in 1:length(sites)) {
     filled[m] <- mean(lai_ts[month_of_step == month_of_step[m]], na.rm = TRUE)
   }
 
-  # Smoothing (same call as add_bom_lai_to_met.R / Anna's Step3)
+  # Smoothing (same call as add_bom_lai_to_met.R / PLUMBER2 Step3)
   spl_raw <- smooth.spline(time, filled)$y
   smo <- pmax(spl_raw, 0)
   lin <- na.approx(lai_ts, rule = 2)

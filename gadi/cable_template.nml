@@ -29,7 +29,7 @@
    verbose = .FALSE.
    leaps = .TRUE.
    logn = 88
-   fixedCO2 = 350.0         ! only used if the met file has no CO2air; ask Anna what value to use
+   fixedCO2 = 350.0         ! only used if the met file has no CO2air (prepare_met_for_cable.py always adds it)
    spincasa      = .FALSE.
    l_casacnp     = .FALSE.
    l_laiFeedbk   = .FALSE.

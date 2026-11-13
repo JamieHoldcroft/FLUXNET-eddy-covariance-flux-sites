@@ -1,7 +1,7 @@
-# plot_diagnostics.R: Plotting_diagnostic_plots_for_site_selection.R with
-# paths set for Jamie's processed/ folder. One PNG per site with time series of
+# plot_diagnostics.R: PLUMBER2 Plotting_diagnostic_plots_for_site_selection.R with
+# paths set for this repo's processed/ folder. One PNG per site with time series of
 # the met, flux and LAI variables (grey = gap-filled), in
-# processed/PLUMBER2_site_selection_figs/. LAI_BOM (BOM 5 km, replaces Copernicus)
+# processed/site_selection_figs/. LAI_BOM (BOM 5 km, replaces Copernicus)
 # is added by add_bom_lai_to_met.R.
 
 library(ncdf4)

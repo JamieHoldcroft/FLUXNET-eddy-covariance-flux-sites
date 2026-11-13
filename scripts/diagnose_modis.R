@@ -1,7 +1,7 @@
-# diagnose.R: runs the LAI steps of the orignal scripts Step2 (same code) for EVERY site in
+# diagnose_modis.R: runs the LAI steps of PLUMBER2 Step2 (same code) for EVERY site in
 # Raw_data and saves one figure per site showing the series after each step,
 # plus the climatology. Prints a summary table at the end.
-# Figures: processed/PLUMBER2_site_selection_figs/<site>_LAI_steps.png
+# Figures: processed/diagnose_LAI_figures/MODIS_LAI_diagnose/<site>_LAI_steps.png
 
 library(zoo)
 rm(list = ls(all = TRUE))
@@ -14,8 +14,8 @@ dir.create(outdir, showWarnings = FALSE)
 # Set to "2003-01-01" to drop 2002 (the AU-Sno test); NA keeps everything
 start_date <- NA
 
-# Optional: drop the FIRST YEAR of data for the sites listed here (same as in
-# add_lai_to_met.R). Uncomment this line and the matching line in read() below.
+# Drop the FIRST YEAR of data for the sites listed here (2002 for these sites,
+# the same as drop_2002_sites in add_modis_lai_to_met.R). Set to c() to keep all years.
 drop_first_year_sites <- c("AU-Sno", "AU-APL", "AU-ASM")
 
 pixel_no <- c(7, 8, 9, 12, 13, 14, 17, 18, 19)

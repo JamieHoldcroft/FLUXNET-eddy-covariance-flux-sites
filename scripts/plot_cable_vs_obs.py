@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Plot observed vs CABLE Rnet, Qle, Qh, GPP and NEE at every site.
 
-For each site in cable_results/AU-xxx/AU-xxx_out.nc this finds the matching
+For each site in CABLE_DIR/AU-xxx/AU-xxx_out.nc this finds the matching
 processed/FLUXNET2015_sites/Nc_files/Flux/AU-xxx_*_Flux.nc, aligns the two on
 time, averages to daily means and draws one PNG per site with five stacked
 panels (r, RMSE and bias in each panel).
@@ -10,10 +10,15 @@ Outputs (in --out-dir, default processed/FLUXNET2015_sites/Figures/CABLE_vs_obs)
     AU-xxx_cable_vs_obs.png   one figure per site
     stats.csv                 n days, r, RMSE, bias per site and variable
 
+Set ROOT, CABLE_DIR and OUT_DIR below first.
+
 Usage (from the repo root):
-    python plot_cable_vs_obs.py
-    python plot_cable_vs_obs.py --measured-only   # drop poorly gap-filled obs (qc > 1)
-    python plot_cable_vs_obs.py --sites AU-Cum AU-How
+    python scripts/plot_cable_vs_obs.py
+    python scripts/plot_cable_vs_obs.py --measured-only   # drop poorly gap-filled obs (qc > 1)
+    python scripts/plot_cable_vs_obs.py --sites AU-Cum AU-How
+
+Multi-patch output must be averaged with final_patch_run/combine_patches.py first,
+otherwise only the first patch is read.
 
 Needs numpy, netCDF4 and matplotlib.
 """
@@ -31,10 +36,8 @@ import numpy as np
 
 ROOT = Path("C:/Users/jamie/extending-plumber2-flux-sites/")
 
-CABLE_DIR = os.path.join(ROOT, "cable_results_anna")
-OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs_anna")
-# CABLE_DIR = os.path.join(ROOT, "cable_results")
-# OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs")
+CABLE_DIR = os.path.join(ROOT, "cable_results")
+OUT_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Figures", "CABLE_vs_obs")
 FLUX_DIR = os.path.join(ROOT, "processed", "FLUXNET2015_sites", "Nc_files", "Flux")
 MIN_DAY_FRACTION = 0.5  # a day needs at least this fraction of valid obs steps
 
@@ -133,7 +136,7 @@ def plot_site(site, data):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    p.add_argument("--sites", nargs="*", help="site codes (default: every folder in cable_results)")
+    p.add_argument("--sites", nargs="*", help="site codes (default: every folder in CABLE_DIR)")
     p.add_argument("--measured-only", action="store_true",
                    help="use only measured and good-quality gap-filled obs (qc <= 1, where a qc flag exists)")
     p.add_argument("--out-dir", default=OUT_DIR)

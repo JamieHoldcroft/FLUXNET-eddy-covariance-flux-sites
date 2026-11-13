@@ -1,0 +1,5 @@
+# Scripts that are copied to Gadi must keep Unix line endings
+*.sh   text eol=lf
+*.pbs  text eol=lf
+*.py   text eol=lf
+*.nml  text eol=lf

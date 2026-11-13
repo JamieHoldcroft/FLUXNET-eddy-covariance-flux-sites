@@ -21,7 +21,10 @@
 #     - Hourly and Halfhourly, like tstep loop: hourly sites (AU-Tum,
 #       AU-Otw) only have FLUXMET_HR/ERA5_HR files, which go to the Hourly folders
 #
-# Run with: source("run_step1_fluxnet.R", echo = TRUE)
+# Run from the repo root with: source("scripts/process_fluxnet_step1.R", echo = TRUE)
+#
+# Warning: a full run (only_site empty) deletes processed/FLUXNET2015_sites/ first,
+# including Nc_files/Met_with_LAI and Figures. Redo the LAI steps afterwards.
 
 library(FluxnetLSM)  # convert_fluxnet_to_netcdf
 

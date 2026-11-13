@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Compare two or more CABLE runs against the flux tower observations, site by site.
 
-    python scripts/compare_runs.py cable_results_leuning cable_results_medlyn
-    python scripts/compare_runs.py cable_results_leuning cable_results_medlyn --measured-only
+    python scripts/compare_runs.py cable_results cable_results_test
+    python scripts/compare_runs.py cable_results cable_results_test --measured-only
     python scripts/compare_runs.py cable_results_a cable_results_b cable_results_c --out compare_abc.csv
 
 Each RUN_DIR has one folder per site (AU-xxx/AU-xxx_out.nc), as copied back from Gadi.
@@ -10,7 +10,7 @@ Only sites that are in every run are compared, and every run is scored on the sa
 days (days where the obs and all runs have a valid daily mean), so differences come
 from the runs and not from different samples.
 
-Scores use the same rules as plot_cable_vs_obs.py: daily means (a day needs at least
+Scores use the same rules as plot_cable_vs_obs.py, and its ROOT setting: daily means (a day needs at least
 50% valid steps), then bias = mean(CABLE - obs), r, and RMSE, for Rnet, Qle, Qh,
 GPP and NEE.
 

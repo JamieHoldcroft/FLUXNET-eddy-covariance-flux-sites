@@ -1,5 +1,5 @@
-# same as Step2_Process_MODIS_LAI_for_all_sites.R with paths
-# set for Jamie's processed/ folder. Cleans and smooths the MODIS LAI and writes
+# same as PLUMBER2 Step2_Process_MODIS_LAI_for_all_sites.R with paths
+# set for this repo's processed/ folder. Cleans and smooths the MODIS LAI and writes
 # it into a copy of each Met file as LAI_MODIS (in Nc_files/Met_with_LAI/).
 
 library(ncdf4)
@@ -103,7 +103,7 @@ for (s in 1:length(site_codes)) {
   qc  <- read.csv(qc_file, header=TRUE)
   sd  <- read.csv(sd_file, header=TRUE)
 
-  #(Jamie) Drop 2002 for sites listed in drop_2002_sites
+  #CHANGED: drop 2002 for sites listed in drop_2002_sites
   if (site_codes[s] %in% drop_2002_sites) {
     lai <- lai[lai$calendar_date >= "2003-01-01", ]
     qc  <- qc[qc$calendar_date  >= "2003-01-01", ]
@@ -469,4 +469,4 @@ for (s in 1:length(site_codes)) {
 
 cat("\n==== SUMMARY ====\n")
 print(summary, right = FALSE)
-if (all(summary$status == "ok")) cat("\nAll sites done. Next: source('plot_diagnostics.R', echo = TRUE)\n")
+if (all(summary$status == "ok")) cat("\nAll sites done. Next: source('scripts/add_bom_lai_to_met.R', echo = TRUE)\n")

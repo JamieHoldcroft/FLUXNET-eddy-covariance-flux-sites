@@ -11,11 +11,12 @@ These are problems we know about in the data and in the standard CABLE runs. Che
 | AU-MvB | Irrigated. CABLE has no irrigation, so it can't reproduce the latent heat. | Dropped. AU-MvA may also be irrigated, so treat it with care. |
 | AU-DaS | Bad Psurf readings on 9 Apr 2022, 03:00–04:00, make Qair spike. | Repaired by `prepare_met_for_cable.py`. |
 | AU-Wom, AU-TTE, AU-Whr | Long stretches of flat, blocky gap-filled met (e.g. Wom 2021–24, TTE 2022–25, Whr 2022–24). | Cut out by the years in `site_periods.csv`. |
-| AU-Rig 2012, AU-Ync 2022, AU-Whr and AU-Stp 2019 | The rain gauge looks dead but is still flagged as measured (e.g. Ync 2022 has 170 mm in a very wet year). | Cut out by the years in `site_periods.csv`. |
-| AU-Otw | Coastal grid cell. CABLE stops at start-up with several patches. | Runs as a single patch (EBF). |
+| AU-Whr and AU-Stp 2019 | The rain gauge looks dead but is still flagged as measured. | Cut out by the years in `site_periods.csv`. |
+| AU-Rig 2012, AU-Ync 2022 | The same dead-gauge problem (e.g. Ync 2022 has 170 mm in a very wet year). | **Still in the runs**: `site_periods.csv` keeps AU-Rig 2011–2013 and AU-Ync_1 2016–2024. Treat these years with care. |
+| AU-Otw | Coastal grid cell. CABLE stops at start-up with several patches. | Standard run: single patch, C3 grass (iveg 6, from its IGBP class GRA). Left out of the patch runs. |
 | AU-Wac | Measured LWdown looks too high (it equals σT⁴ of air temperature). | Site dropped anyway (no rain). |
 
 ## Problems in the standard CABLE runs
 
-- **Sensible heat is too high** at almost every site (37 of 40, median bias about +17 W/m²).
+- **Sensible heat is too high** at almost every site (37 of 40 in an earlier standard run, median bias about +17 W/m²).
 - **Wetlands and floodplains**: CABLE has no flooding, so it misses the latent heat from standing water (AU-Fog).

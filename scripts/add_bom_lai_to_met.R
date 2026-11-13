@@ -26,9 +26,9 @@ library(zoo)
 #clear R environment
 rm(list=ls(all=TRUE))
 
-#CHANGED: TRUE = linear interpolation between mid-month values (requested),
+#CHANGED: TRUE = linear interpolation between mid-month values,
 #so LAI changes gradually instead of jumping on the 1st of each month.
-#FALSE = Anna's original (each monthly value repeated over the whole month).
+#FALSE = the original Step3 method (each monthly value repeated over the whole month).
 interpolate_lai <- TRUE
 
 #CHANGED: TRUE = replace LAI_BOM in files that already have it (needed to switch
@@ -42,10 +42,10 @@ path <- "C:/Users/jamie/extending-plumber2-flux-sites/processed/"
 flx_path <- paste0(path, "/FLUXNET2015_sites/")
 
 
-#Met files with processed LAI time series (made by add_lai_to_met.R, the MODIS step)
+#Met files with processed LAI time series (made by add_modis_lai_to_met.R, the MODIS step)
 outdir <- paste0(flx_path, "/Nc_files/Met_with_LAI/")
 
-#CHANGED: this script can run before or after add_lai_to_met.R (MODIS). It makes
+#CHANGED: this script can run before or after add_modis_lai_to_met.R (MODIS). It makes
 #Met_with_LAI if needed and copies in any Met file that isn't there yet, never
 #overwriting a file that already has LAI in it.
 dir.create(outdir, recursive=TRUE, showWarnings=FALSE)
