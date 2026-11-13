@@ -1,7 +1,5 @@
-# get_modis_lai.R
-#
 # Downloads MODIS LAI (MCD15A2H: Lai_500m, LaiStdDev_500m, FparLai_QC) for each
-# site: same product, bands and 1 km box as Anna's Get_MODIS_LAI_for_all_sites.R.
+# site: same product, bands and 1 km box as Get_MODIS_LAI_for_all_sites.R.
 #
 # Difference: instead of one huge batch request per band (which NASA's server
 # often answers with "502" errors), it downloads one YEAR at a time, saves each

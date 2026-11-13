@@ -1,26 +1,24 @@
-# run_step1_fluxnet.R
-#
-# The FLUXNET2015 section of Anna's Step1_Process_all_available_flux_sites_for_PLUMBER2.R
-# (lines 46-160), run on the new FLUXNET Shuttle zips in Jamie's FLUXNET folder.
+# The FLUXNET2015 section of Step1_Process_all_available_flux_sites_for_PLUMBER2.R
+# (lines 46-160), run on the new FLUXNET Shuttle zips in the FLUXNET folder.
 #
 # What it does:
 #   Part 0 (new, needed because the Shuttle files have new names):
 #     - opens each TERN_<site>_FLUXNET_..._v1.3_r1.zip and takes out only the two
 #       files Step1 uses: FLUXMET_HH (flux + met data) and ERA5_HH (ERA5 weather,
 #       used to gap-fill met). The zips are not changed.
-#     - saves them under the FLUXNET2015 names Anna's functions look for, e.g.
+#     - saves them under the FLUXNET2015 names the og script's functions look for, e.g.
 #       FLX_AU-Ync_FLUXNET2015_FULLSET_HH_2012-2025_1-3.csv
 #       FLX_AU-Ync_FLUXNET2015_ERAI_HH_1981-2025_1-3.csv
-#   Part 1 (Anna's code, same functions, same order, same settings):
+#   Part 1 (same code, same functions, same order, same settings):
 #     - get_fluxnet_files, get_path_site_code, get_fluxnet_version_no,
 #       get_fluxnet_erai_files, then convert_fluxnet_to_netcdf with
 #       met_gapfill = "ERAinterim", flux_gapfill = "statistical", 100% thresholds,
 #       min_yrs = 1, check_range_action = "warn", include_all_eval = TRUE
-#   Differences from Anna's run (processing is identical):
+#   Differences from the og scripts run (processing is identical):
 #     - one site at a time instead of a 12-core cluster, with a progress bar
-#     - errors are printed and collected instead of silently dropped (Anna's
+#     - errors are printed and collected instead of silently dropped (original
 #       tryCatch returns NULL), and a summary table is saved at the end
-#     - Hourly and Halfhourly, like Anna's tstep loop: hourly sites (AU-Tum,
+#     - Hourly and Halfhourly, like tstep loop: hourly sites (AU-Tum,
 #       AU-Otw) only have FLUXMET_HR/ERA5_HR files, which go to the Hourly folders
 #
 # Run with: source("run_step1_fluxnet.R", echo = TRUE)
@@ -41,7 +39,7 @@ zip_path <- "C:/Users/jamie/extending-plumber2-flux-sites/FLUXNET"
 #Set output path for all data
 out_path <- "C:/Users/jamie/extending-plumber2-flux-sites/processed"
 
-#Unzipped and renamed inputs go here (as Anna: one folder per time step)
+#Unzipped and renamed inputs go here
 #CHANGED: Hourly added
 tstep    <- c("Hourly", "Halfhourly")
 res_code <- c(Hourly="HR", Halfhourly="HH")
@@ -56,7 +54,7 @@ out_path_flx <- paste0(out_path, "/FLUXNET2015_sites/")
 # only_site <- c("AU-Tum", "AU-Otw")
 only_site <- c()
 
-#Anna's thresholds (Step1 lines 25-32)
+# original thresholds (Step1 lines 25-32)
 missing_met  <- 100   #max. percent missing (must be set)
 missing_flux <- 100
 gapfill_met_tier1 <- 100  #max. gapfilled percentage
@@ -119,7 +117,7 @@ if (length(problems) > 0) { cat("\nSkipped zips:\n"); print(problems) }
 
 
 ################################################
-### Part 1: Anna's FLUXNET2015 section       ###
+### Part 1: original FLUXNET2015 section     ###
 ################################################
 
 #Remove old outputs (only this site's if testing one site)
@@ -131,7 +129,7 @@ if (all(is.na(only_site))) {
 dir.create(out_path_flx, recursive=TRUE, showWarnings=FALSE)
 
 # Input Fluxnet data files (using FULLSET in this example, se R/Helpers.R for details)
-#CHANGED: files from both the Hourly and Halfhourly folders (Anna loops over tstep)
+#CHANGED: files from both the Hourly and Halfhourly folders (original loops over tstep)
 infiles <- unlist(lapply(in_paths, get_fluxnet_files))
 if (!all(is.na(only_site))) infiles <- infiles[sapply(infiles, get_path_site_code) %in% only_site]
 

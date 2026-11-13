@@ -1,4 +1,4 @@
-# add_lai_to_met.R: Anna's Step2_Process_MODIS_LAI_for_all_sites.R with paths
+# same as Step2_Process_MODIS_LAI_for_all_sites.R with paths
 # set for Jamie's processed/ folder. Cleans and smooths the MODIS LAI and writes
 # it into a copy of each Met file as LAI_MODIS (in Nc_files/Met_with_LAI/).
 
@@ -37,33 +37,21 @@ site_codes <- sapply(site_nc, function(x) ncatt_get(x, varid=0, "site_code")$val
 
 
 
-#MODISTools R package only lets you to extract 1km around site coordinates.
-#This is greater than the average site footprint.
-#Code returns data for 5 x 5 pixels, manually verified than the pixel numbers
-#provided (1-25) go by rows, i.e.
-
-# [ 1 ] [ 2 ]  [ 3 ] [ 4 ]  [ 5 ]
-# [ 6 ] [ 7*]  [ 8*] [ 9*]  [10 ]
-# [11 ] [12*]  [ce*] [14*]  [15 ]
-# [16 ] [17*]  [18*] [19*]  [20 ]
-# [21 ] [22 ]  [23 ] [24 ]  [25 ]
-
 # Extracting pixels in the centre and immediately around it (*)
 # These correspond to a radius of 500m around site coordinates
 
 pixel_no <- c(7, 8, 9, 12, 13, 14, 17, 18, 19)
 
 #Use only good quality data
-#Random bit integer format, ask Martin if need to work these out again...
 
 qc_flags <- c(0, 2, 24 ,26, 32, 34, 56, 58)
 
-#(Jamie) Sites whose MODIS record starts with missing dates. The spline
+#Sites whose MODIS record starts with missing dates. The spline
 #extrapolates there (AU-Sno: LAI ~230 in July 2002), which inflates the July
 #climatology. For these sites MODIS data before 2003 are not used.
 drop_2002_sites <- c("AU-Sno", "AU-APL", "AU-ASM")
 
-#(Jamie) Optional: drop the FIRST YEAR of MODIS data for the sites listed here
+#Optional: drop the FIRST YEAR of MODIS data for the sites listed here
 #(for sites with extreme values at the start of the record). Uncomment this
 #line and the matching block in the site loop, and list the sites.
 #To recompute a site, delete its file in Nc_files/Met_with_LAI/ first (the
@@ -122,7 +110,7 @@ for (s in 1:length(site_codes)) {
     sd  <- sd[sd$calendar_date  >= "2003-01-01", ]
   }
 
-  #(Jamie) Optional: drop the first year of data for sites in drop_first_year_sites
+  #Optional: drop the first year of data for sites in drop_first_year_sites
   # if (site_codes[s] %in% drop_first_year_sites) {
   #   first_yr <- min(as.numeric(substr(lai$calendar_date, 1, 4)))
   #   cut_date <- paste0(first_yr + 1, "-01-01")
@@ -402,7 +390,7 @@ for (s in 1:length(site_codes)) {
     missing <- which(is.na(lai_clim_anomalies))
    
     #Repeat climatology for all years and gapfill time series
-    #(Jamie: rep_len instead of Anna's rep(..., floor(...)) so the last, partial
+    #(rep_len instead of rep(..., floor(...)) so the last, partial
     # MODIS year is covered too. Needed because the site files now run into
     # the same year MODIS ends in, 2026)
     clim_all_yrs <- rep_len(modis_clim, length(lai_time))
@@ -466,7 +454,7 @@ for (s in 1:length(site_codes)) {
   laivar = ncvar_def('LAI_MODIS', '-', list(site_nc[[s]]$dim[[1]], site_nc[[s]]$dim[[2]], site_nc[[s]]$dim[[3]]),
                           missval=-9999,longname='MODIS 8-daily LAI')
   # Add variable and then variable data:
-  #(Jamie) If LAI_MODIS is already in the file, overwrite it instead of adding it again
+  #If LAI_MODIS is already in the file, overwrite it instead of adding it again
   if (!("LAI_MODIS" %in% names(site_nc[[s]]$var))) site_nc[[s]] = ncvar_add(site_nc[[s]], laivar)
   ncvar_put(site_nc[[s]], 'LAI_MODIS', modis_tseries)
   

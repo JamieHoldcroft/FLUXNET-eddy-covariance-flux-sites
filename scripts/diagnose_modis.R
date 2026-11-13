@@ -1,4 +1,4 @@
-# diagnose.R: runs the LAI steps of Anna's Step2 (same code) for EVERY site in
+# diagnose.R: runs the LAI steps of the orignal scripts Step2 (same code) for EVERY site in
 # Raw_data and saves one figure per site showing the series after each step,
 # plus the climatology. Prints a summary table at the end.
 # Figures: processed/PLUMBER2_site_selection_figs/<site>_LAI_steps.png

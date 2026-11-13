@@ -1,7 +1,4 @@
-#####################################################################
-# add_bom_lai_to_met.R
-#
-# Anna's Step3_Process_Copernicus_LAI_for_all_sites.R, run on the
+# Same as Step3_Process_Copernicus_LAI_for_all_sites.R with adjustments, run on the
 # BOM 5 km monthly LAI (lai_bom_<year>_Jul2025.nc, 2000-2024) instead
 # of Copernicus. Adds a variable LAI_BOM to every met file in
 # Met_with_LAI (the folder the MODIS script fills), like Step3 adds
@@ -11,18 +8,17 @@
 #  1. Opens every met file in Met_with_LAI and reads each site's lat/lon.
 #  2. Reads the BOM LAI at each site, one year at a time
 #     (5 km pixel the site is in; if that pixel is empty, e.g. a
-#     coastal site, the nearest non-empty pixel, as Anna's
+#     coastal site, the nearest non-empty pixel, like
 #     sample_raster_NA does).
-#     -> replaces Anna's lines 75-137 (Copernicus 3x3 averaging), as Anna asked.
+#     -> replaces the Step3 script's lines 75-137 (Copernicus 3x3 averaging).
 #  3. Fills the 5 months the BOM files have no data for
 #     (Jan 2000 and Sep-Dec 2024) with that month's mean over all years.
-#  4. From here on Anna's code (lines 145-342): smooth with a spline,
+#  4. From here on same script code (lines 145-342): smooth with a spline,
 #     make a 12-month climatology, add a 12-month rolling anomaly,
 #     fill years outside 2000-2024 with the climatology, repeat each
 #     monthly value for every half-hour of the month, write LAI_BOM.
 #
-# Every change from Anna's script is marked "CHANGED:".
-#####################################################################
+# Every change from the Step3_Process_Copernicus_LAI_for_all_sites.R script is marked "CHANGED:".
 
 library(ncdf4)
 library(zoo)
@@ -30,7 +26,7 @@ library(zoo)
 #clear R environment
 rm(list=ls(all=TRUE))
 
-#CHANGED: TRUE = linear interpolation between mid-month values (Anna's request),
+#CHANGED: TRUE = linear interpolation between mid-month values (requested),
 #so LAI changes gradually instead of jumping on the 1st of each month.
 #FALSE = Anna's original (each monthly value repeated over the whole month).
 interpolate_lai <- TRUE
@@ -43,7 +39,7 @@ overwrite_lai_bom <- TRUE
 path <- "C:/Users/jamie/extending-plumber2-flux-sites/processed/"
 
 #Which fluxnet data to use?
-flx_path <- paste0(path, "/FLUXNET2015_sites/")   #CHANGED: Jamie's path
+flx_path <- paste0(path, "/FLUXNET2015_sites/")
 
 
 #Met files with processed LAI time series (made by add_lai_to_met.R, the MODIS step)
@@ -81,7 +77,7 @@ if(length(lai_files) != 25) stop("incorrect LAI files found")
 
 
 #Set BOM start and end year   CHANGED: was copernicus_startyr 1999 / endyr 2017
-#(kept Anna's variable names so the rest of her code is unchanged)
+#(kept same variable names so the rest of the code is unchanged)
 copernicus_startyr <- 2000
 copernicus_endyr   <- 2024
 
@@ -96,8 +92,8 @@ lon <- lapply(lon, as.numeric)
 
 
 ##############################################################
-### CHANGED: replaces Anna's lines 75-137                   ###
-### Read the BOM pixel at each site, one year at a time      ###
+### CHANGED: replaces lines 75-137                         ###
+### Read the BOM pixel at each site, one year at a time    ###
 ##############################################################
 
 #BOM grid (same in every file: lat -10 to -44, lon 112 to 154, 0.05 degrees)
@@ -125,7 +121,7 @@ for (y in 1:length(lai_files)) {
     vals <- ncvar_get(nc_lai, "lai", start=c(site_i[s], site_j[s], 1), count=c(1, 1, -1))
 
     #If the pixel is empty in every month (sea or masked), use the nearest
-    #non-empty pixel within 3 degrees (as Anna's sample_raster_NA does)
+    #non-empty pixel within 3 degrees (as sample_raster_NA does)
     if (all(is.na(vals))) {
 
       i_win <- which(abs(lai_lons - lon[[s]]) <= 3)
@@ -168,7 +164,7 @@ for (s in 1:length(site_tseries)) {
 }
 
 
-#Check that no missing LAI values (Anna's line 135)
+#Check that no missing LAI values (same as line 135)
 if (any(sapply(site_tseries, function(x) any(is.na(x))))) {
   stop("Missing LAI values present")
 }
@@ -306,7 +302,7 @@ for (s in 1:length(site_nc)) {
   if (endyr > copernicus_endyr) {
 
     #LAI data
-    #CHANGED: Anna's line was
+    #CHANGED: original line was
     #  append(smooth_lai_ts, rep(lai_clim_anomalies, endyr - copernicus_endyr))
     #which drops the anomaly step and pads with the whole series from the
     #start (2000...) instead of the climatology. Now: climatology, as the
