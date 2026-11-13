@@ -17,13 +17,5 @@ These are problems we know about in the data and in the standard CABLE runs. Che
 
 ## Problems in the standard CABLE runs
 
-- **Sensible heat is too high** at almost every site (37 of 40; median bias about +17 W/m²).
-- **NEE is a weak sink.** CASA is off, so NEE isn't expected to be good. Use GPP for carbon.
-- **Snow melts late at alpine sites** (seen at AU-APL, Nov–Dec instead of late Sep).
+- **Sensible heat is too high** at almost every site (37 of 40, median bias about +17 W/m²).
 - **Wetlands and floodplains**: CABLE has no flooding, so it misses the latent heat from standing water (AU-Fog).
-
-## Things to know about the pipeline itself
-
-- Scoring uses daily means (a day needs at least 50% valid steps), so the daily cycle doesn't count.
-- Gap-filled fluxes are used in scoring unless you add `--measured-only`.
-- For multi-patch runs, CABLE writes a garbled `patchfrac` into its output. `combine_patches.py` takes the fractions from the input table instead.

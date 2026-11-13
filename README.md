@@ -216,8 +216,3 @@ Then plot with `CABLE_DIR = cable_results_patches`.
 ## `site_periods.csv`
 
 There is one row per site: `site,start_year,end_year,keep,notes`. `keep=no` drops a site; for example, AU-Lox and AU-MvB are irrigated, and CABLE has no irrigation. After changing the file, copy it to Gadi and redo the prep step and the run.
-
-## Known data issues
-
-- **AU-DaS, 9 Apr 2022, 03:00–04:00:** bad Psurf readings make Qair spike. `prepare_met_for_cable.py` repairs this on Gadi. 
-- **Rain is entirely ERA5 gap-fill** at AU-Fog, AU-APL, AU-Col and AU-Wac.
