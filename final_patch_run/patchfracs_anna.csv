@@ -1,0 +1,43 @@
+site,source,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14
+AU-APL,fallback: current sheet,,,,,,1.0,,,,,,,,
+AU-ASM,sheet,0.75,,,,,0.05,0.1,,,,,,,0.1
+AU-Ade,sheet,,0.23,,,,0.66,,,,,,,,0.11
+AU-Boy,sheet,,0.9,,,,,,,,,,,,0.1
+AU-Col,fallback: current sheet,,1.0,,,,,,,,,,,,
+AU-Cow,sheet,,1.0,,,,,,,,,,,,
+AU-Cpr,sheet,,0.08,,,,0.62,0.06,,,,,,,0.24
+AU-Ctr,sheet,,1.0,,,,,,,,,,,,
+AU-Cum,sheet,,0.9,,,,,,,,,,,,0.1
+AU-DaP,sheet,,,,,,0.3,0.7,,,,,,,
+AU-DaS,sheet,,0.2,,,,,0.69,,,,,,,0.11
+AU-Dry,sheet,,0.07,,,,,0.76,,,,,,,0.17
+AU-Emr,sheet,,,,,,0.64,0.36,,,,,,,
+AU-Fle,sheet,,0.5,,,0.1,,0.3,,,,,,,0.1
+AU-Fog,fallback: current sheet,,,,,,,,,,,1.0,,,
+AU-Gin,sheet,,0.33,,,,0.56,,,,,,,,0.11
+AU-How,sheet,,0.5,,,,0.1,0.33,,,,,,,0.07
+AU-Lit,sheet,,0.25,,,,0.15,0.5,,,,,,,0.1
+AU-Lon,sheet,,,,,,,0.9,,,,,,,0.1
+AU-Lox,fallback: current sheet,,,,1.0,,,,,,,,,,
+AU-MvA,sheet,,,,,,0.9,,,,,,,,0.1
+AU-MvB,fallback: current sheet,,,,,,,,,1.0,,,,,
+AU-Otw,sheet,,,,,,1.0,,,,,,,,
+AU-RDF,fallback: current sheet,,0.18,,,,0.15,0.6,,,,,,,0.07
+AU-Rgf,sheet,,,,,,1.0,,,,,,,,
+AU-Rig,sheet,,,,,,1.0,,,,,,,,
+AU-Rob,sheet,,1.0,,,,,,,,,,,,
+AU-Sam,sheet,,,,,,,1.0,,,,,,,
+AU-Sil,sheet,,,,,,1.0,,,,,,,,
+AU-Sno,fallback: current sheet,,0.5,,,,0.5,,,,,,,,
+AU-Stp,sheet,,,,,,,1.0,,,,,,,
+AU-TTE,sheet,0.2,,,,,,0.5,,,,,,,0.3
+AU-Tum,sheet,,0.9,,,,0.1,,,,,,,,
+AU-Wac,fallback: current sheet,,1.0,,,,,,,,,,,,
+AU-Wel,fallback: current sheet,,0.1,,,,,,,0.9,,,,,
+AU-Wgt,fallback: current sheet,,,,,,1.0,,,,,,,,
+AU-Whr,sheet,,0.9,,,,0.1,,,,,,,,
+AU-Wom,sheet,,0.9,,,,0.1,,,,,,,,
+AU-Wrr,sheet,,1.0,,,,,,,,,,,,
+AU-Ya1,sheet,,,,,,1.0,,,,,,,,
+AU-Ya2,fallback: current sheet,,,,,,1.0,,,,,,,,
+AU-Ync,sheet,,,,,,0.86,0.14,,,,,,,
