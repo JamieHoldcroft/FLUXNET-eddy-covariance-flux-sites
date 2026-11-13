@@ -1,9 +1,9 @@
-"""Turn multi-patch CABLE output into site averages so plot_cable_vs_obs.py works unchanged.
+"""Turns multi-patch CABLE output into site averages so plot_cable_vs_obs.py works unchanged.
 
     python combine_patches.py RESULTS_DIR PATCH_CSV OUT_DIR
 
     RESULTS_DIR  folder with one sub-folder per site (AU-xxx/AU-xxx_out.nc), e.g. cable_results_run4
-    PATCH_CSV    jules_patches_22_sites.csv (the patch fractions used for the run)
+    PATCH_CSV    have to choose (the patch fractions used for the run)
     OUT_DIR      new folder, same layout, e.g. cable_results_run4_combined
 
 Every variable with a patch dimension is replaced by the fraction-weighted average

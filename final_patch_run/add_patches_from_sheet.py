@@ -1,4 +1,4 @@
-"""Add JULES-style vegetation patches to CABLE-ready met files.
+"""Adds the JULES-style vegetation patches to CABLE-ready met files.
 
 Reads the files made by prepare_met_for_cable.py and writes NEW copies with
 several vegetation patches per site. The input files are never changed.
@@ -6,7 +6,7 @@ several vegetation patches per site. The input files are never changed.
     python add_patches_from_sheet.py MET_DIR SHEET_CSV OUT_DIR
 
     MET_DIR    folder of prepared files (e.g. /scratch/<project>/<user>/met_cable)
-    SHEET_CSV  patchfracs_and_pfts.csv (your Google sheet: one row per site,
+    SHEET_CSV  patchfracs_and_pfts.csv (the Google sheet: one row per site,
                column C<n> or C<n>-name (e.g. C2-EBF) = patchfrac of CABLE iveg n, empty = 0;
                sites with no C values are skipped)
     OUT_DIR    new folder for the patched copies (e.g. /scratch/<project>/<user>/met_cable_patches)
